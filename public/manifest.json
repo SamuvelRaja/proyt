@@ -4,7 +4,7 @@
   "version": "1.0",
   "action": {
     "default_popup": "index.html",
-    "default_icon": "/vite.svg"
+    "default_icon": "neonred.png"
   },
   "background": {
     "service_worker": "background.js"
