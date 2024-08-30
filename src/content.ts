@@ -9,9 +9,14 @@ const exData={
 }
 function filterVideos(){
     if (currentURL?.startsWith(ythome)) {
-        const nodeList = document.querySelectorAll(".ytd-channel-name.complex-string>a");
-        const feedList: HTMLAnchorElement[] = Array.from(nodeList) as HTMLAnchorElement[];
-        feedList.forEach((node:HTMLAnchorElement)=>{
+        const shorts:HTMLDivElement|null=document.querySelector(".ytd-rich-section-renderer")
+          if(shorts){
+            console.log(shorts,"srs")
+            shorts.style.display="none"
+          }
+        const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name.complex-string>a");
+        
+        nodeList.forEach((node:HTMLAnchorElement)=>{
           console.log(node,node.href,!exData.whitelist.includes(node.href),"am")
           if(!exData.whitelist.includes(node.href)){
             console.log(node.parentElement,node.closest(".ytd-rich-grid-renderer"),"rm")
@@ -19,6 +24,15 @@ function filterVideos(){
             vidContainer.style.display="none"
           }
         })
+
+        //add btn
+        function injectCustomButton() {
+          const homeSub=document.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer>a")
+          homeSub.forEach((subs:HTMLAnchorElement)=>{
+            subs.style.backgroundColor="red"
+          })
+        }
+        injectCustomButton()
       }
       if(currentURL?.startsWith(ytwatch)){
 
