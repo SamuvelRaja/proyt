@@ -12,6 +12,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/*"],
+      "css": ["yt.css"],
       "js": ["content.js"]
     }
   ],

@@ -23,16 +23,25 @@ function filterVideos(){
           }
         })
 
-        //add btn
-        function injectCustomButton() {
+      function injectCustomButton() {
           const subSection=document.querySelector<HTMLElement>("#sections>:nth-child(2)")!
+          console.log(subSection,"ss")
           const homeSub=subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer>a")
-          homeSub.forEach((subs:HTMLAnchorElement)=>{
-            subs.style.backgroundColor="red"
-          })
+          console.log(homeSub,"hs")
+          
+          if (homeSub) {
+            for (let i = 0; i < homeSub.length-1; i++) {
+              const customButton = document.createElement("button");
+              customButton.textContent = "+";
+              customButton.classList.add("addyt-btn");
+              homeSub[i].appendChild(customButton);
+            }
+          }
+          
           
         }
         injectCustomButton()
+     
       }
       if(currentURL?.startsWith(ytwatch)){
 
@@ -40,9 +49,12 @@ function filterVideos(){
 
       }
 }
+
+   //add btn
+        
   // YouTube homepage dynamically loads content, so we need to monitor the DOM
 const observer = new MutationObserver(filterVideos);
-observer.observe(document.body, { childList: true, subtree: true });
+observer.observe(document.querySelector("#contents")!, { childList: true, subtree: true });
 
 // Run filtering immediately on page load
 filterVideos();
