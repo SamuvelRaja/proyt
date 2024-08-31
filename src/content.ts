@@ -1,14 +1,24 @@
-console.log('Content script loaded');
-const ythome = 'https://www.youtube.com';
+
+const ythome = 'https://www.youtube.com/';
 const ytwatch='https://www.youtube.com/watch'
 const ytresults='https://www.youtube.com/results'
 const currentURL=window.location.href
-console.log(currentURL,"cl")
+
+type extstate = {
+  homesub:boolean,
+  hiddensub:boolean
+}
+
+const loadStates:extstate={
+  homesub:false,
+  hiddensub:false
+}
+console.log('Content script loaded',currentURL==ythome);
 const exData={
   whitelist:['https://www.youtube.com/@Mrwhosetheboss','https://www.youtube.com/@A2DChannel']
 }
 function filterVideos(){
-    if (currentURL?.startsWith(ythome)) {
+    if (currentURL==ythome) {
         const shorts:HTMLDivElement|null=document.querySelector(".ytd-rich-section-renderer")
           if(shorts){
             console.log(shorts,"srs")
@@ -22,26 +32,64 @@ function filterVideos(){
             vidContainer.style.display="none"
           }
         })
-
-      function injectCustomButton() {
-          const subSection=document.querySelector<HTMLElement>("#sections>:nth-child(2)")!
-          console.log(subSection,"ss")
-          const homeSub=subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer>a")
-          console.log(homeSub,"hs")
+        const subSection=document.querySelector<HTMLElement>("#sections>:nth-child(2)")!
+        const visibleSub=subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a")
+      function injectCustomButton(homeSub:NodeListOf<HTMLAnchorElement>,state:boolean) {
           
-          if (homeSub) {
-            for (let i = 0; i < homeSub.length-1; i++) {
+          if (homeSub&&!state) {
+            for (let i = 0; i < homeSub.length-2; i++) {
               const customButton = document.createElement("button");
               customButton.textContent = "+";
               customButton.classList.add("addyt-btn");
               homeSub[i].appendChild(customButton);
+              if(i==homeSub.length-3){
+                loadStates.homesub=true
+              }
+            }
+            const expandSub=subSection.querySelector("#expander-item")
+            if(expandSub&&!loadStates.hiddensub){
+              const targetNode: HTMLElement  = subSection.querySelector('ytd-guide-collapsible-entry-renderer')!;
+              observehidden(targetNode, injectCustomButton)
+              loadStates.hiddensub=true
             }
           }
-          
-          
         }
-        injectCustomButton()
-     
+
+        function observehidden(targetNode:HTMLElement,inject:(homessub:NodeListOf<HTMLAnchorElement>,status:boolean)=>void){
+                  const config: MutationObserverInit = {
+                      attributes: true,  // Observe attribute changes
+                      childList: false,  // Don't observe changes to child elements
+                      subtree: false     // Don't observe descendants
+                  };
+
+                  // Callback function to execute when mutations are observed
+                  const callback = (mutationsList: MutationRecord[]) => {
+                      for (let mutation of mutationsList) {
+                          if (mutation.type === 'attributes') {
+                              console.log(`The ${mutation.attributeName} attribute was modified.`);
+                              const expandableSub=targetNode.querySelectorAll<HTMLAnchorElement>("#expandable-items a")!
+                              console.log(expandableSub,"exp")
+                              inject(expandableSub,loadStates.hiddensub)
+                          }
+                      }
+                  };
+
+                  // Create an instance of MutationObserver and pass in the callback function
+                  const observer = new MutationObserver(callback);
+
+                  // Make sure targetNode is defined as an HTMLElement
+                  
+
+                  if (targetNode) {
+                      // Start observing the target node for configured mutations
+                      observer.observe(targetNode, config);
+                  } else {
+                      console.error("Target node not found");
+                  }
+        }
+
+        injectCustomButton(visibleSub,loadStates.homesub)
+        
       }
       if(currentURL?.startsWith(ytwatch)){
 
