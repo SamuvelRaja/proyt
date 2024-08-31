@@ -17,9 +17,7 @@ function filterVideos(){
         const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name.complex-string>a");
         
         nodeList.forEach((node:HTMLAnchorElement)=>{
-          console.log(node,node.href,!exData.whitelist.includes(node.href),"am")
           if(!exData.whitelist.includes(node.href)){
-            console.log(node.parentElement,node.closest(".ytd-rich-grid-renderer"),"rm")
             const vidContainer:HTMLDivElement=node.closest(".ytd-rich-grid-renderer")!
             vidContainer.style.display="none"
           }
@@ -27,10 +25,12 @@ function filterVideos(){
 
         //add btn
         function injectCustomButton() {
-          const homeSub=document.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer>a")
+          const subSection=document.querySelector<HTMLElement>("#sections>:nth-child(2)")!
+          const homeSub=subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer>a")
           homeSub.forEach((subs:HTMLAnchorElement)=>{
             subs.style.backgroundColor="red"
           })
+          
         }
         injectCustomButton()
       }
