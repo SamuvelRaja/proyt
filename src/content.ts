@@ -46,8 +46,28 @@ function filterVideos(){
             console.log("injsuccess")
             for (let i = 0; i < homeSub.length; i++) {
               const customButton = document.createElement("button");
-              customButton.textContent = "+";
-              customButton.classList.add("addyt-btn");
+              
+              
+              // Store data using chrome.storage.sync
+              
+              if(homeSub[i].href=="https://www.youtube.com/@Mrwhosetheboss"){
+                customButton.classList.add("rmyt-btn");
+                customButton.textContent = "-";
+                customButton.addEventListener("click",(e)=>{
+                   e.stopPropagation(); // Stops event from reaching the parent <a>
+                    e.preventDefault()
+                  removeYTList();
+                });
+              }else{
+                customButton.classList.add("addyt-btn");
+                customButton.textContent = "+";
+                customButton.addEventListener("click",(e)=>{
+                  e.stopPropagation()
+                  e.preventDefault()
+                  addYTList()
+                })
+              }
+
               homeSub[i].appendChild(customButton);
               if(i==homeSub.length-3&&state.id==1){
                 loadStates.homesub.state=true
@@ -66,7 +86,20 @@ function filterVideos(){
           }
         }
 
-        function observehidden(targetNode:HTMLElement,inject:(homessub:NodeListOf<HTMLAnchorElement>,status:subState)=>void){
+        
+
+        injectCustomButton(visibleSub,loadStates.homesub)
+        
+      }
+      if(currentURL?.startsWith(ytwatch)){
+
+      }if(currentURL?.startsWith(ytresults)){
+
+      }
+}
+
+  // hidden observer
+  function observehidden(targetNode:HTMLElement,inject:(homessub:NodeListOf<HTMLAnchorElement>,status:subState)=>void){
                   const config: MutationObserverInit = {
                       attributes: true,  // Observe attribute changes
                       childList: false,  // Don't observe changes to child elements
@@ -100,17 +133,14 @@ function filterVideos(){
                   }
         }
 
-        injectCustomButton(visibleSub,loadStates.homesub)
-        
-      }
-      if(currentURL?.startsWith(ytwatch)){
-
-      }if(currentURL?.startsWith(ytresults)){
-
-      }
-}
-
-   //add btn
+    //add btn handlers
+    function addYTList(){
+        console.log("addlist")
+    }
+    //remove event handler
+    function removeYTList(){
+        console.log("removelist")
+    }
         
   // YouTube homepage dynamically loads content, so we need to monitor the DOM
 const observer = new MutationObserver(filterVideos);
