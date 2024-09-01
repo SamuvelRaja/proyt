@@ -4,14 +4,24 @@ const ytwatch='https://www.youtube.com/watch'
 const ytresults='https://www.youtube.com/results'
 const currentURL=window.location.href
 
+type subState={
+  state:boolean,
+  id:number
+}
 type extstate = {
-  homesub:boolean,
-  hiddensub:boolean
+  homesub:subState,
+  hiddensub:subState
 }
 
 const loadStates:extstate={
-  homesub:false,
-  hiddensub:false
+  homesub:{
+    state:false,
+    id:1
+  },
+  hiddensub:{
+    state:false,
+    id:2
+  }
 }
 console.log('Content script loaded',currentURL==ythome);
 const exData={
@@ -34,28 +44,33 @@ function filterVideos(){
         })
         const subSection=document.querySelector<HTMLElement>("#sections>:nth-child(2)")!
         const visibleSub=subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a")
-      function injectCustomButton(homeSub:NodeListOf<HTMLAnchorElement>,state:boolean) {
-          
-          if (homeSub&&!state) {
-            for (let i = 0; i < homeSub.length-2; i++) {
+      function injectCustomButton(homeSub:NodeListOf<HTMLAnchorElement>,state:subState) {
+          console.log("inj",homeSub, homeSub&&!state.state,state,loadStates.hiddensub)
+          if (homeSub&&!state.state) {
+            console.log("injsuccess")
+            for (let i = 0; i < homeSub.length; i++) {
               const customButton = document.createElement("button");
               customButton.textContent = "+";
               customButton.classList.add("addyt-btn");
               homeSub[i].appendChild(customButton);
-              if(i==homeSub.length-3){
-                loadStates.homesub=true
+              if(i==homeSub.length-3&&state.id==1){
+                loadStates.homesub.state=true
+                break;
+              }else if(i==homeSub.length-2&&state.id==2){
+                loadStates.hiddensub.state=true
+                break;
               }
             }
             const expandSub=subSection.querySelector("#expander-item")
-            if(expandSub&&!loadStates.hiddensub){
+            if(expandSub&&!loadStates.hiddensub.state){
               const targetNode: HTMLElement  = subSection.querySelector('ytd-guide-collapsible-entry-renderer')!;
               observehidden(targetNode, injectCustomButton)
-              loadStates.hiddensub=true
+              
             }
           }
         }
 
-        function observehidden(targetNode:HTMLElement,inject:(homessub:NodeListOf<HTMLAnchorElement>,status:boolean)=>void){
+        function observehidden(targetNode:HTMLElement,inject:(homessub:NodeListOf<HTMLAnchorElement>,status:subState)=>void){
                   const config: MutationObserverInit = {
                       attributes: true,  // Observe attribute changes
                       childList: false,  // Don't observe changes to child elements
@@ -68,8 +83,9 @@ function filterVideos(){
                           if (mutation.type === 'attributes') {
                               console.log(`The ${mutation.attributeName} attribute was modified.`);
                               const expandableSub=targetNode.querySelectorAll<HTMLAnchorElement>("#expandable-items a")!
-                              console.log(expandableSub,"exp")
+                              
                               inject(expandableSub,loadStates.hiddensub)
+                                console.log("hidden toggled")
                           }
                       }
                   };
