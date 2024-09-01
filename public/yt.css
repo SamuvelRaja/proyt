@@ -9,3 +9,6 @@
     font-size: 16px;
     border-radius: 50%;
 }
+.ytd-rich-section-renderer[is-shorts] {
+    display: none;
+}

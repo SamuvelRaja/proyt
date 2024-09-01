@@ -29,11 +29,7 @@ const exData={
 }
 function filterVideos(){
     if (currentURL==ythome) {
-        const shorts:HTMLDivElement|null=document.querySelector(".ytd-rich-section-renderer")
-          if(shorts){
-            console.log(shorts,"srs")
-            shorts.style.display="none"
-          }
+        
         const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name.complex-string>a");
         
         nodeList.forEach((node:HTMLAnchorElement)=>{
