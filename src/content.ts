@@ -136,10 +136,15 @@ function filterVideos(){
     //add btn handlers
     function addYTList(){
         console.log("addlist")
+        
     }
     //remove event handler
     function removeYTList(){
         console.log("removelist")
+        // Retrieve data from chrome.storage.sync
+          chrome.storage.sync.get(['key'], (result) => {
+            console.log('Value currently is ' + result.key);
+          });
     }
         
   // YouTube homepage dynamically loads content, so we need to monitor the DOM
