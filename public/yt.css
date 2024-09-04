@@ -8,6 +8,7 @@
     color: black;
     font-size: 16px;
     border-radius: 50%;
+    cursor: pointer;
 }
 .rmyt-btn{
     width: 20px;
@@ -19,6 +20,7 @@
     color: black;
     font-size: 16px;
     border-radius: 50%;
+    cursor: pointer;
 }
 .ytd-rich-section-renderer[is-shorts] {
     display: none;
