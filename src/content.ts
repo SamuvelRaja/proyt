@@ -115,6 +115,34 @@ function filterVideos() {
 
   if (currentURL?.startsWith(ytwatch)) {
     // Implement specific watch page logic if needed
+    const watchSub=document.querySelector<HTMLDivElement>("#owner")
+    const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
+
+    const customButton = document.createElement("button");
+    if (exData.whitelist.includes(watchAnchor.href)) {
+            customButton.classList.add("rmyt-btn");
+            customButton.textContent = "-";
+            customButton.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              removeYTList(watchAnchor.href);
+              customButton.classList.remove("rmyt-btn")
+              customButton.classList.add("addyt-btn");
+            customButton.textContent = "+";
+            });
+          } else {
+            customButton.classList.add("addyt-btn");
+            customButton.textContent = "+";
+            customButton.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              addYTList(watchAnchor.href);
+              customButton.classList.remove("addyt-btn")
+              customButton.classList.add("rmyt-btn");
+            customButton.textContent = "-";
+            });
+          }
+          watchSub?.appendChild(customButton)
   }
 
   if (currentURL?.startsWith(ytresults)) {
