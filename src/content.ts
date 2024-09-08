@@ -2,32 +2,13 @@ const ythome = 'https://www.youtube.com/';
 const ytwatch = 'https://www.youtube.com/watch';
 const ytresults = 'https://www.youtube.com/results';
 const currentURL = window.location.href;
+import { exData, loadStates, addYTList,removeYTList } from "./utility/constants";
+import {  subState } from "./utility/types";
 
-type subState = {
-  state: boolean,
-  id: number
-};
 
-type extstate = {
-  homesub: subState,
-  hiddensub: subState
-};
-
-const loadStates: extstate = {
-  homesub: {
-    state: false,
-    id: 1
-  },
-  hiddensub: {
-    state: false,
-    id: 2
-  }
-};
 
 // Placeholder for whitelist data
-let exData = {
-  whitelist: [] as string[]
-};
+
 
 // Load whitelist from chrome.storage.sync
 function loadWhitelist() {
@@ -38,42 +19,16 @@ function loadWhitelist() {
   });
 }
 
-// Save updated whitelist to chrome.storage.sync
-function saveWhitelist() {
-  chrome.storage.sync.set({ whitelist: exData.whitelist }, () => {
-    console.log('Whitelist saved:', exData.whitelist);
-  });
-}
 
-console.log('Content script loaded', currentURL == ythome);
 
-// Function to filter videos on the homepage based on the whitelist
-function filterVideos() {
-  if (currentURL == ythome) {
-    const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name.complex-string>a");
-
-    nodeList.forEach((node: HTMLAnchorElement) => {
-      if (!exData.whitelist.includes(node.href)) {
-        const vidContainer: HTMLDivElement = node.closest(".ytd-rich-grid-renderer")!;
-        vidContainer.style.display = "none";
-      }
-    });
-
-    const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
-    const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
-
-    function injectCustomButton(homeSub: NodeListOf<HTMLAnchorElement>, state: subState) {
-      if (homeSub && !state.state) {
-        for (let i = 0; i < homeSub.length; i++) {
-          const customButton = document.createElement("button");
-
-          if (exData.whitelist.includes(homeSub[i].href)) {
+function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
+  if (exData.whitelist.includes(a.href)) {
             customButton.classList.add("rmyt-btn");
             customButton.textContent = "-";
             customButton.addEventListener("click", (e) => {
               e.stopPropagation();
               e.preventDefault();
-              removeYTList(homeSub[i].href);
+              removeYTList(a.href);
               customButton.classList.remove("rmyt-btn")
               customButton.classList.add("addyt-btn");
             customButton.textContent = "+";
@@ -84,12 +39,30 @@ function filterVideos() {
             customButton.addEventListener("click", (e) => {
               e.stopPropagation();
               e.preventDefault();
-              addYTList(homeSub[i].href);
+              addYTList(a.href);
               customButton.classList.remove("addyt-btn")
               customButton.classList.add("rmyt-btn");
             customButton.textContent = "-";
             });
           }
+}
+
+console.log('Content script loaded', currentURL == ythome);
+
+// Function to filter videos on the homepage based on the whitelist
+function filterVideos() {
+  if (currentURL == ythome) {
+    
+
+    const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
+    const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
+
+    function injectCustomButton(homeSub: NodeListOf<HTMLAnchorElement>, state: subState) {
+      if (homeSub && !state.state) {
+        for (let i = 0; i < homeSub.length; i++) {
+          const customButton = document.createElement("button");
+
+          makebutton(customButton,homeSub[i])
 
           homeSub[i].appendChild(customButton);
 
@@ -112,37 +85,20 @@ function filterVideos() {
 
     injectCustomButton(visibleSub, loadStates.homesub);
   }
-
+console.log("oyw",currentURL,ytwatch)
   if (currentURL?.startsWith(ytwatch)) {
     // Implement specific watch page logic if needed
-    const watchSub=document.querySelector<HTMLDivElement>("#owner")
-    const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
+    
 
     const customButton = document.createElement("button");
-    if (exData.whitelist.includes(watchAnchor.href)) {
-            customButton.classList.add("rmyt-btn");
-            customButton.textContent = "-";
-            customButton.addEventListener("click", (e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              removeYTList(watchAnchor.href);
-              customButton.classList.remove("rmyt-btn")
-              customButton.classList.add("addyt-btn");
-            customButton.textContent = "+";
-            });
-          } else {
-            customButton.classList.add("addyt-btn");
-            customButton.textContent = "+";
-            customButton.addEventListener("click", (e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              addYTList(watchAnchor.href);
-              customButton.classList.remove("addyt-btn")
-              customButton.classList.add("rmyt-btn");
-            customButton.textContent = "-";
-            });
-          }
-          watchSub?.appendChild(customButton)
+          document.addEventListener("DOMContentLoaded",()=>{
+            console.log("yw",currentURL,ytwatch)
+            const watchSub=document.querySelector<HTMLDivElement>("#owner")
+            const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
+            makebutton(customButton,watchAnchor)
+            watchSub?.appendChild(customButton)
+          })
+          
   }
 
   if (currentURL?.startsWith(ytresults)) {
@@ -177,27 +133,9 @@ function observeHidden(targetNode: HTMLElement, inject: (homeSub: NodeListOf<HTM
 }
 
 // Add a channel to the whitelist
-function addYTList(channelUrl: string) {
-  if (!exData.whitelist.includes(channelUrl)) {
-    exData.whitelist.push(channelUrl);
-    saveWhitelist();
-    console.log("Channel added to whitelist!");
-  } else {
-    console.log("Channel is already whitelisted!");
-  }
-}
 
-// Remove a channel from the whitelist
-function removeYTList(channelUrl: string) {
-  const index = exData.whitelist.indexOf(channelUrl);
-  if (index > -1) {
-    exData.whitelist.splice(index, 1);
-    saveWhitelist();
-    console.log("Channel removed from whitelist!");
-  } else {
-    console.log("Channel is not in the whitelist!");
-  }
-}
+
+
 
 // Run filtering immediately on page load after loading the whitelist
 loadWhitelist();
