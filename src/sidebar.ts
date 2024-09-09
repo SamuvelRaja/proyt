@@ -1,9 +1,11 @@
 import { makebutton, loadStates } from "./utility/constants";
 import { subState } from "./utility/types";
-makebutton
 
+console.log("sideexist")
 function sidebarChange() {
     const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
+    
+        console.log(subSection,"hsb")
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
 
     function injectCustomButton(homeSub: NodeListOf<HTMLAnchorElement>, state: subState) {
@@ -38,8 +40,10 @@ function sidebarChange() {
 
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
-    sidebarChange()
+
+window.addEventListener('load', () => {
+  sidebarChange()
+  console.log("winwin")
 })
 
 function observeHidden(targetNode: HTMLElement, inject: (homeSub: NodeListOf<HTMLAnchorElement>, status: subState) => void) {

@@ -48,6 +48,7 @@ export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
   if (exData.whitelist.includes(a.href)) {
             customButton.classList.add("rmyt-btn");
             customButton.textContent = "-";
+            console.log("rmbtn")
             customButton.addEventListener("click", (e) => {
               e.stopPropagation();
               e.preventDefault();
@@ -59,6 +60,7 @@ export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
           } else {
             customButton.classList.add("addyt-btn");
             customButton.textContent = "+";
+            console.log("addbtn")
             customButton.addEventListener("click", (e) => {
               e.stopPropagation();
               e.preventDefault();
