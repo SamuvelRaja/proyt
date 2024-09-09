@@ -12,19 +12,18 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/"],
-      "js": ["content.js", "home.js", "sidebar.js"],
-      "css":["yt.css"]
-
+      "js": ["home.js", "sidebar.js"],
+      "css": ["yt.css"]
     },
     {
       "matches": ["https://www.youtube.com/results*"],
-      "js": ["content.js", "search.js", "sidebar.js"],
-      "css":["yt.css"]
+      "js": ["search.js", "sidebar.js"],
+      "css": ["yt.css"]
     },
     {
       "matches": ["https://www.youtube.com/watch*"],
-      "js": ["content.js", "watch.js"],
-      "css":["yt.css"]
+      "js": ["watch.js"],
+      "css": ["yt.css"]
     }
   ],
   "permissions": [

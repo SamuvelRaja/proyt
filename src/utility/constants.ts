@@ -43,3 +43,29 @@ export function saveWhitelist() {
     console.log('Whitelist saved:', exData.whitelist);
   });
 }
+
+export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
+  if (exData.whitelist.includes(a.href)) {
+            customButton.classList.add("rmyt-btn");
+            customButton.textContent = "-";
+            customButton.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              removeYTList(a.href);
+              customButton.classList.remove("rmyt-btn")
+              customButton.classList.add("addyt-btn");
+            customButton.textContent = "+";
+            });
+          } else {
+            customButton.classList.add("addyt-btn");
+            customButton.textContent = "+";
+            customButton.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              addYTList(a.href);
+              customButton.classList.remove("addyt-btn")
+              customButton.classList.add("rmyt-btn");
+            customButton.textContent = "-";
+            });
+          }
+}

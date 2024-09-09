@@ -1,5 +1,4 @@
-import { exData, loadStates, addYTList,removeYTList } from "./utility/constants";
-import {  subState } from "./utility/types";
+import { exData} from "./utility/constants";
 
 
 // Load whitelist from chrome.storage.sync
@@ -12,6 +11,7 @@ function loadWhitelist() {
 }
 loadWhitelist()
 
+function filterVideos(){
 const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name.complex-string>a");
 
     nodeList.forEach((node: HTMLAnchorElement) => {
@@ -20,3 +20,6 @@ const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name
         vidContainer.style.display = "none";
       }
     });
+}
+    const observer = new MutationObserver(filterVideos);
+observer.observe(document.querySelector("#contents")!, { childList: true, subtree: true });
