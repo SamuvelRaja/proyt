@@ -1,17 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "proyt",
+  "name": "My Chrome Extension",
   "version": "1.0",
-  "action": {
-    "default_popup": "index.html",
-    "default_icon": "neonred.png"
-  },
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/"],
+      "matches": ["https://www.youtube.com/*"],
       "js": ["home.js", "sidebar.js"],
       "css": ["yt.css"]
     },
