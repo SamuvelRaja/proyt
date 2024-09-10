@@ -1,6 +1,8 @@
 console.log("watch.js loaded!");
 import { makebutton,loadWhitelist  } from "./utility/constants";
 
+export function watch(){
+
 
 loadWhitelist()
     const customButton = document.createElement("button");
@@ -10,3 +12,4 @@ loadWhitelist()
             makebutton(customButton,watchAnchor)
             watchSub?.appendChild(customButton)
           })
+}

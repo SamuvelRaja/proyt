@@ -7,18 +7,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/"],
-      "js": ["home.js"],
-      "css": ["yt.css"]
-    },
-    {
-      "matches": ["https://www.youtube.com/results*"],
-      "js": ["search.js"],
-      "css": ["yt.css"]
-    },
-    {
-      "matches": ["https://www.youtube.com/watch*"],
-      "js": ["watch.js"],
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
       "css": ["yt.css"]
     }
   ],
