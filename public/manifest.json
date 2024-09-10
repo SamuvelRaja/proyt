@@ -8,12 +8,12 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/"],
-      "js": ["home.js", "sidebar.js"],
+      "js": ["home.js"],
       "css": ["yt.css"]
     },
     {
       "matches": ["https://www.youtube.com/results*"],
-      "js": ["search.js", "sidebar.js"],
+      "js": ["search.js"],
       "css": ["yt.css"]
     },
     {

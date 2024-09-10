@@ -1,5 +1,5 @@
 import { exData} from "./utility/constants";
-
+import { sidebarChange } from "./sidebar";
 
 // Load whitelist from chrome.storage.sync
 function loadWhitelist() {
@@ -20,6 +20,11 @@ const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-channel-name
         vidContainer.style.display = "none";
       }
     });
+    sidebarChange()
 }
     const observer = new MutationObserver(filterVideos);
 observer.observe(document.querySelector("#contents")!, { childList: true, subtree: true });
+
+// window.addEventListener('load', () => {
+//   sidebarChange()
+// })

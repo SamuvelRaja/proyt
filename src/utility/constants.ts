@@ -43,31 +43,41 @@ export function saveWhitelist() {
     console.log('Whitelist saved:', exData.whitelist);
   });
 }
+function handleAction(customButton:HTMLButtonElement|null,a:string){
+  console.log(customButton?.classList)
+  if(customButton?.classList.contains("rmyt-btn")){
+              customButton.classList.remove("rmyt-btn")
+              console.log(customButton.removeEventListener)
+              customButton.classList.add("addyt-btn");
+            customButton.textContent = "+";
+              removeYTList(a);
+  }else if(customButton?.classList.contains("addyt-btn")){
+    customButton.classList.remove("addyt-btn")
+              customButton.classList.add("rmyt-btn");
+            customButton.textContent = "-";
+            addYTList(a);
+  }
+}
 
 export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
+    console.log(exData.whitelist,a,"mb")
   if (exData.whitelist.includes(a.href)) {
             customButton.classList.add("rmyt-btn");
             customButton.textContent = "-";
             console.log("rmbtn")
-            customButton.addEventListener("click", (e) => {
+            customButton.addEventListener("click", function(this: HTMLButtonElement,e){
               e.stopPropagation();
               e.preventDefault();
-              removeYTList(a.href);
-              customButton.classList.remove("rmyt-btn")
-              customButton.classList.add("addyt-btn");
-            customButton.textContent = "+";
+              handleAction(this,a.href)
             });
           } else {
             customButton.classList.add("addyt-btn");
             customButton.textContent = "+";
             console.log("addbtn")
-            customButton.addEventListener("click", (e) => {
+            customButton.addEventListener("click", function(this: HTMLButtonElement,e){
               e.stopPropagation();
               e.preventDefault();
-              addYTList(a.href);
-              customButton.classList.remove("addyt-btn")
-              customButton.classList.add("rmyt-btn");
-            customButton.textContent = "-";
+              handleAction(this,a.href)
             });
           }
 }
