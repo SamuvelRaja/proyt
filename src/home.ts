@@ -1,14 +1,7 @@
-import { exData} from "./utility/constants";
+import { exData,loadWhitelist } from "./utility/constants";
 import { sidebarChange } from "./sidebar";
-
 // Load whitelist from chrome.storage.sync
-function loadWhitelist() {
-  chrome.storage.sync.get(['whitelist'], (result) => {
-    exData.whitelist = result.whitelist || [];
-    console.log('Loaded whitelist:', exData.whitelist);
 
-  });
-}
 loadWhitelist()
 
 function filterVideos(){

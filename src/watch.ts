@@ -1,9 +1,10 @@
 console.log("watch.js loaded!");
-import { exData } from "./utility/constants";
-import { makebutton } from "./utility/constants";
+import { makebutton,loadWhitelist  } from "./utility/constants";
 
+
+loadWhitelist()
     const customButton = document.createElement("button");
-          document.addEventListener("DOMContentLoaded",()=>{
+          window.addEventListener("load",()=>{
             const watchSub=document.querySelector<HTMLDivElement>("#owner")
             const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
             makebutton(customButton,watchAnchor)

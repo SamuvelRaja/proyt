@@ -81,3 +81,10 @@ export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
             });
           }
 }
+export function loadWhitelist() {
+  chrome.storage.sync.get(['whitelist'], (result) => {
+    exData.whitelist = result.whitelist || [];
+    console.log('Loaded whitelist:', exData.whitelist);
+
+  });
+}
