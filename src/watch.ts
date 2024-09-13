@@ -1,15 +1,17 @@
-console.log("watch.js loaded!");
+
 import { makebutton,loadWhitelist  } from "./utility/constants";
 
 export function watch(){
 
 
+  console.log("watchrun")
+
 loadWhitelist()
     const customButton = document.createElement("button");
-          window.addEventListener("load",()=>{
+  
             const watchSub=document.querySelector<HTMLDivElement>("#owner")
             const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
-            makebutton(customButton,watchAnchor)
+            makebutton(customButton,watchAnchor.href)
             watchSub?.appendChild(customButton)
-          })
+      
 }

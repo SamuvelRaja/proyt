@@ -1,4 +1,4 @@
-console.log("search.js loaded!");
+
 import { makebutton,loadWhitelist  } from "./utility/constants";
 
 
@@ -10,7 +10,7 @@ loadWhitelist()
           window.addEventListener("load",()=>{
             const watchSub=document.querySelector<HTMLDivElement>("#owner")
             const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
-            makebutton(customButton,watchAnchor)
+            makebutton(customButton,watchAnchor.href)
             watchSub?.appendChild(customButton)
           })
     

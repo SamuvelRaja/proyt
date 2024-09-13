@@ -40,7 +40,7 @@ export function sidebarChange() {
         for (let i = 0; i < homeSub.length; i++) {
           const customButton = document.createElement("button");
 
-          makebutton(customButton,homeSub[i])
+          makebutton(customButton,homeSub[i].href)
 
           homeSub[i].appendChild(customButton);
 
