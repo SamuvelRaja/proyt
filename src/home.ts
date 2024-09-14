@@ -6,13 +6,12 @@ import { sidebarChange } from "./sidebar";
 export function home(){
 
 
-  console.log("homerun")
+  
   const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
     
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
   console.log(visibleSub,"home")
 
-loadWhitelist()
 
 function filterVideos(){
 const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-rich-grid-renderer .ytd-channel-name.complex-string>a");
@@ -20,7 +19,7 @@ const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-rich-grid-re
     nodeList.forEach((node: HTMLAnchorElement) => {
       if (!exData.whitelist.includes(node.href)) {
         const vidContainer: HTMLDivElement = node.closest(".ytd-rich-grid-renderer")!;
-        console.log(vidContainer,"homevid")
+        
         vidContainer.style.display = "none";
       }
     });
@@ -30,8 +29,20 @@ const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-rich-grid-re
     const observer = new MutationObserver(filterVideos);
 observer.observe(document.querySelector("#contents")!, { childList: true, subtree: true });
 
-  console.log("homdomloaded")
-  filterVideos()
+  console.log("homerun")
+async function loadWhitelistAndFilterVideos() {
+  try {
+    let lstate =await loadWhitelist();
+    console.log("homdomloaded",lstate);
+    filterVideos();  // Call the function to filter videos
+  } catch (error) {
+    console.error('Failed to load whitelist:', error);
+  }
+}
+
+loadWhitelistAndFilterVideos();
+
+  
 
 
 }

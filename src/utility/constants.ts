@@ -82,11 +82,15 @@ export function makebutton(customButton:HTMLButtonElement,href:string){
           }
 }
 export function loadWhitelist() {
-  chrome.storage.sync.get(['whitelist'], (result) => {
-    exData.whitelist = result.whitelist || [];
-    console.log('Loaded whitelist:', exData.whitelist);
+  console.log("Runningwhitelist")
+  return  new Promise((resolve) => {
+      chrome.storage.sync.get(['whitelist'], (result) => {
+        exData.whitelist = result.whitelist || [];
+        console.log('Loaded whitelist:', exData.whitelist);
+        resolve(true);
+      });
+    });
 
-  });
 }
 
 export function getChannelBaseUrl(fullUrl:string) {
