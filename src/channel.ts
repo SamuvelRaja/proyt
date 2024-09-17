@@ -3,6 +3,7 @@ import {
   makebutton,
   loadWhitelist,
   getChannelBaseUrl,
+  clearOldBtn
 } from "./utility/constants";
 
 export function channel() {
@@ -17,7 +18,8 @@ export function channel() {
     const channelUrl = getChannelBaseUrl(FullUrl);
 
     makebutton(customButton, channelUrl);
-    watchSub?.appendChild(customButton);
+    clearOldBtn(watchSub)
+    watchSub.appendChild(customButton);
     watchSub.classList.add("proyt-watchsub")
     
     sidebarChange();

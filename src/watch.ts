@@ -1,17 +1,19 @@
-import { makebutton, loadWhitelist } from "./utility/constants";
+import { makebutton, loadWhitelist, clearOldBtn } from "./utility/constants";
 import { sidebarChange } from "./sidebar";
+
 
 export function watch() {
   console.log("watchrun");
 
   function watchInit() {
     const customButton = document.createElement("button");
-    const watchSub = document.querySelector<HTMLDivElement>("#owner");
+    const watchSub = document.querySelector<HTMLDivElement>("#owner")!;
     const watchAnchor = document.querySelector<HTMLAnchorElement>("#owner a")!;
     makebutton(customButton, watchAnchor.href);
-    watchSub?.appendChild(customButton);
+    clearOldBtn(watchSub)
+    watchSub.appendChild(customButton);
     sidebarChange()
-    console.log("sidecall")
+    console.log("sidecall",watchAnchor)
   }
   async function loadWhitelistAndFilterVideos() {
     try {

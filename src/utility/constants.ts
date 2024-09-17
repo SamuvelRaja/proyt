@@ -107,3 +107,10 @@ export function getChannelBaseUrl(fullUrl:string) {
     return fullUrl;  // If it's not a channel URL, return the original URL
   }
 }
+
+export function clearOldBtn(btnContainer:HTMLElement){
+  let oldbtn=btnContainer.querySelector(".rmyt-btn, .addyt-btn")
+          if(oldbtn){
+            oldbtn.remove()
+          }
+}

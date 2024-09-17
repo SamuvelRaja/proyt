@@ -1,6 +1,6 @@
 import { makebutton, loadStates } from "./utility/constants";
 import { subState } from "./utility/types";
-
+import { clearOldBtn } from "./utility/constants";
 
 
 export function sidebarChange() {
@@ -45,10 +45,7 @@ export function sidebarChange() {
           const customButton = document.createElement("button");
 
           makebutton(customButton,homeSub[i].href)
-          let oldbtn=homeSub[i].querySelector(".rmyt-btn, .addyt-btn")
-          if(oldbtn){
-            oldbtn.remove()
-          }
+          clearOldBtn(homeSub[i])
           homeSub[i].appendChild(customButton);
 
           if (i == homeSub.length - 3 && state.id == 1) {
