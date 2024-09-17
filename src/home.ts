@@ -42,7 +42,4 @@ async function loadWhitelistAndFilterVideos() {
 
 loadWhitelistAndFilterVideos();
 
-  
-
-
 }
