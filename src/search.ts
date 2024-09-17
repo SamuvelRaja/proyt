@@ -1,4 +1,5 @@
 import { makebutton, loadWhitelist } from "./utility/constants";
+import { sidebarChange } from "./sidebar";
 
 export function search() {
   
@@ -11,6 +12,8 @@ export function search() {
       makebutton(customButton, watchAnchor.href);
       watchSub?.appendChild(customButton);
     });
+    sidebarChange()
+    console.log("sidecall")
   }
   async function loadWhitelistAndFilterVideos() {
     try {

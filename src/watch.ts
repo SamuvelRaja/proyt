@@ -1,4 +1,5 @@
 import { makebutton, loadWhitelist } from "./utility/constants";
+import { sidebarChange } from "./sidebar";
 
 export function watch() {
   console.log("watchrun");
@@ -9,6 +10,8 @@ export function watch() {
     const watchAnchor = document.querySelector<HTMLAnchorElement>("#owner a")!;
     makebutton(customButton, watchAnchor.href);
     watchSub?.appendChild(customButton);
+    sidebarChange()
+    console.log("sidecall")
   }
   async function loadWhitelistAndFilterVideos() {
     try {

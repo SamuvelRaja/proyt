@@ -4,6 +4,7 @@ import { subState } from "./utility/types";
 
 
 export function sidebarChange() {
+  function sidebarInit(){
   // observer start
     function observeHidden(targetNode: HTMLElement, inject: (homeSub: NodeListOf<HTMLAnchorElement>, status: subState) => void) {
   const config: MutationObserverInit = {
@@ -32,6 +33,7 @@ export function sidebarChange() {
 //observer end
 
     const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
+    
     
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
     
@@ -62,8 +64,13 @@ export function sidebarChange() {
     }
 
     injectCustomButton(visibleSub, loadStates.homesub);
-
- 
+  }
+  const sidecon=document.querySelector<HTMLElement>("#contentContainer")
+  console.log(sidecon?.getAttribute("opened"),"side op")
+ if(sidecon?.getAttribute("opened")!==null){
+  console.log("side op true")
+  sidebarInit()
+ }
 
 }
 
