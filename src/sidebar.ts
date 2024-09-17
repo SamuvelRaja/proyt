@@ -1,9 +1,10 @@
 import { makebutton, loadStates } from "./utility/constants";
 import { subState } from "./utility/types";
-
+import { clearOldBtn } from "./utility/constants";
 
 
 export function sidebarChange() {
+  function sidebarInit(){
   // observer start
     function observeHidden(targetNode: HTMLElement, inject: (homeSub: NodeListOf<HTMLAnchorElement>, status: subState) => void) {
   const config: MutationObserverInit = {
@@ -33,15 +34,18 @@ export function sidebarChange() {
 
     const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
     
+    
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
     
     function injectCustomButton(homeSub: NodeListOf<HTMLAnchorElement>, state: subState) {
+      console.log("injcall")
       if (homeSub && !state.state) {
+        console.log("true injcall ")
         for (let i = 0; i < homeSub.length; i++) {
           const customButton = document.createElement("button");
 
-          makebutton(customButton,homeSub[i])
-
+          makebutton(customButton,homeSub[i].href)
+          clearOldBtn(homeSub[i])
           homeSub[i].appendChild(customButton);
 
           if (i == homeSub.length - 3 && state.id == 1) {
@@ -62,8 +66,13 @@ export function sidebarChange() {
     }
 
     injectCustomButton(visibleSub, loadStates.homesub);
-
- 
+  }
+  const sidecon=document.querySelector<HTMLElement>("#contentContainer")
+  console.log(sidecon?.getAttribute("opened"),"side op")
+ if(sidecon?.getAttribute("opened")!==null){
+  console.log("side op true")
+  sidebarInit()
+ }
 
 }
 

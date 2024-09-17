@@ -21,6 +21,8 @@ export function addYTList(channelUrl: string) {
     exData.whitelist.push(channelUrl);
     saveWhitelist();
     console.log("Channel added to whitelist!");
+    loadStates.homesub.state=false
+    loadStates.hiddensub.state=false
   } else {
     console.log("Channel is already whitelisted!");
   }
@@ -33,6 +35,8 @@ export function removeYTList(channelUrl: string) {
     exData.whitelist.splice(index, 1);
     saveWhitelist();
     console.log("Channel removed from whitelist!");
+    loadStates.homesub.state=false
+    loadStates.hiddensub.state=false
   } else {
     console.log("Channel is not in the whitelist!");
   }
@@ -59,16 +63,16 @@ function handleAction(customButton:HTMLButtonElement|null,a:string){
   }
 }
 
-export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
-    console.log(exData.whitelist,a,"mb")
-  if (exData.whitelist.includes(a.href)) {
+export function makebutton(customButton:HTMLButtonElement,href:string){
+    console.log(exData.whitelist,href,exData.whitelist.includes(href),"mb")
+  if (exData.whitelist.includes(href)) {
             customButton.classList.add("rmyt-btn");
             customButton.textContent = "-";
             console.log("rmbtn")
             customButton.addEventListener("click", function(this: HTMLButtonElement,e){
               e.stopPropagation();
               e.preventDefault();
-              handleAction(this,a.href)
+              handleAction(this,href)
             });
           } else {
             customButton.classList.add("addyt-btn");
@@ -77,14 +81,36 @@ export function makebutton(customButton:HTMLButtonElement,a:HTMLAnchorElement){
             customButton.addEventListener("click", function(this: HTMLButtonElement,e){
               e.stopPropagation();
               e.preventDefault();
-              handleAction(this,a.href)
+              handleAction(this,href)
             });
           }
 }
 export function loadWhitelist() {
-  chrome.storage.sync.get(['whitelist'], (result) => {
-    exData.whitelist = result.whitelist || [];
-    console.log('Loaded whitelist:', exData.whitelist);
+  console.log("Runningwhitelist")
+  return  new Promise((resolve) => {
+      chrome.storage.sync.get(['whitelist'], (result) => {
+        exData.whitelist = result.whitelist || [];
+        console.log('Loaded whitelist:', exData.whitelist);
+        resolve(true);
+      });
+    });
 
-  });
+}
+
+export function getChannelBaseUrl(fullUrl:string) {
+  const channelPattern = /^(https:\/\/www\.youtube\.com\/@[\w\d_-]+)/;
+  const match = fullUrl.match(channelPattern);
+
+  if (match && match[1]) {
+    return match[1];  // Return the base channel URL
+  } else {
+    return fullUrl;  // If it's not a channel URL, return the original URL
+  }
+}
+
+export function clearOldBtn(btnContainer:HTMLElement){
+  let oldbtn=btnContainer.querySelector(".rmyt-btn, .addyt-btn")
+          if(oldbtn){
+            oldbtn.remove()
+          }
 }

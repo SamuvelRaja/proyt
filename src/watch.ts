@@ -1,12 +1,29 @@
-console.log("watch.js loaded!");
-import { makebutton,loadWhitelist  } from "./utility/constants";
+import { makebutton, loadWhitelist, clearOldBtn } from "./utility/constants";
+import { sidebarChange } from "./sidebar";
 
 
-loadWhitelist()
+export function watch() {
+  console.log("watchrun");
+
+  function watchInit() {
     const customButton = document.createElement("button");
-          window.addEventListener("load",()=>{
-            const watchSub=document.querySelector<HTMLDivElement>("#owner")
-            const watchAnchor=document.querySelector<HTMLAnchorElement>("#owner a")!
-            makebutton(customButton,watchAnchor)
-            watchSub?.appendChild(customButton)
-          })
+    const watchSub = document.querySelector<HTMLDivElement>("#owner")!;
+    const watchAnchor = document.querySelector<HTMLAnchorElement>("#owner a")!;
+    makebutton(customButton, watchAnchor.href);
+    clearOldBtn(watchSub)
+    watchSub.appendChild(customButton);
+    sidebarChange()
+    console.log("sidecall",watchAnchor)
+  }
+  async function loadWhitelistAndFilterVideos() {
+    try {
+      let lstate = await loadWhitelist();
+      console.log("homdomloaded", lstate);
+      watchInit(); // Call the function to init
+    } catch (error) {
+      console.error("Failed to load whitelist:", error);
+    }
+  }
+
+  loadWhitelistAndFilterVideos();
+}

@@ -8,7 +8,8 @@ module.exports = {
     home: './src/home.ts',
     search: './src/search.ts',
     watch: './src/watch.ts',
-    sidebar: './src/sidebar.ts'
+    sidebar: './src/sidebar.ts',
+    content: './src/content.ts'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
