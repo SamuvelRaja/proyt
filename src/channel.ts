@@ -15,18 +15,11 @@ export function channel() {
     )!;
     const FullUrl = window.location.href;
     const channelUrl = getChannelBaseUrl(FullUrl);
-    //tests
-    makebutton(customButton, "channelUrl");
+
+    makebutton(customButton, channelUrl);
     watchSub?.appendChild(customButton);
-    watchSub.classList.add("samjs");
-    watchSub.style.border = "1px solid yellow";
-    console.log(
-      channelUrl,
-      customButton,
-      watchSub,
-      document.querySelector("H1.dynamic-text-view-model-wiz__h1")
-    );
-    //test end
+    watchSub.classList.add("proyt-watchsub")
+    
     sidebarChange();
     console.log("sidecall");
   }

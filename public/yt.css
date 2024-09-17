@@ -25,3 +25,8 @@
 .ytd-rich-section-renderer[is-shorts] {
     display: none;
 }
+.proyt-watchsub{
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+}

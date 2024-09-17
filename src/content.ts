@@ -63,7 +63,7 @@ document.addEventListener('yt-navigate-finish', function() {
    
     const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
-  console.log(visibleSub,"content")
+  
 });
 
 
@@ -71,3 +71,16 @@ window.addEventListener("load",()=>{
   console.log("initialload")
   onUrlChange(location.href);
 })
+
+//for sidebar
+// const observer = new MutationObserver((mutations) => {
+//   mutations.forEach((mutation) => {
+//     // Check if the sidebar becomes visible or hidden
+//     const sidebar = document.querySelector('ytd-app #guide');
+//     if (sidebar && sidebar.classList.contains('guide-persistent-and-visible')) {
+//       console.log('Sidebar is visible!');
+//     } else {
+//       console.log('Sidebar is hidden!');
+//     }
+//   });
+// });

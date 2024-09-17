@@ -21,6 +21,8 @@ export function addYTList(channelUrl: string) {
     exData.whitelist.push(channelUrl);
     saveWhitelist();
     console.log("Channel added to whitelist!");
+    loadStates.homesub.state=false
+    loadStates.hiddensub.state=false
   } else {
     console.log("Channel is already whitelisted!");
   }
@@ -33,6 +35,8 @@ export function removeYTList(channelUrl: string) {
     exData.whitelist.splice(index, 1);
     saveWhitelist();
     console.log("Channel removed from whitelist!");
+    loadStates.homesub.state=false
+    loadStates.hiddensub.state=false
   } else {
     console.log("Channel is not in the whitelist!");
   }

@@ -38,12 +38,17 @@ export function sidebarChange() {
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
     
     function injectCustomButton(homeSub: NodeListOf<HTMLAnchorElement>, state: subState) {
+      console.log("injcall")
       if (homeSub && !state.state) {
+        console.log("true injcall ")
         for (let i = 0; i < homeSub.length; i++) {
           const customButton = document.createElement("button");
 
           makebutton(customButton,homeSub[i].href)
-
+          let oldbtn=homeSub[i].querySelector(".rmyt-btn, .addyt-btn")
+          if(oldbtn){
+            oldbtn.remove()
+          }
           homeSub[i].appendChild(customButton);
 
           if (i == homeSub.length - 3 && state.id == 1) {
