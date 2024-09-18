@@ -15,8 +15,9 @@ export function home(){
 
 function filterVideos(){
 const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-rich-grid-renderer .ytd-channel-name.complex-string>a");
-    
+    console.log(nodeList)
     nodeList.forEach((node: HTMLAnchorElement) => {
+      console.log("nodelist true")
       if (!exData.whitelist.includes(node.href)) {
         const vidContainer: HTMLDivElement = node.closest(".ytd-rich-grid-renderer")!;
         

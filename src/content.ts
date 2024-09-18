@@ -72,6 +72,12 @@ window.addEventListener("load",()=>{
   onUrlChange(location.href);
 })
 
+window.addEventListener('online', () => {
+  console.log("User is online");
+  onUrlChange(location.href);
+  // Perform actions when online
+});
+
 //for sidebar
 // const observer = new MutationObserver((mutations) => {
 //   mutations.forEach((mutation) => {
