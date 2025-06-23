@@ -10,20 +10,25 @@ export function home(){
   const subSection = document.querySelector<HTMLElement>("#sections>:nth-child(2)")!;
     
     const visibleSub = subSection.querySelectorAll<HTMLAnchorElement>(".ytd-guide-section-renderer a");
-  console.log(visibleSub,"home")
+  console.log("home")
 
 
 function filterVideos(){
 const nodeList = document.querySelectorAll<HTMLAnchorElement>(".ytd-rich-grid-renderer .ytd-channel-name.complex-string>a");
     console.log(nodeList)
     nodeList.forEach((node: HTMLAnchorElement) => {
-      console.log("nodelist true")
+      console.log("nodelist true",!exData.whitelist.includes(node.href))
       if (!exData.whitelist.includes(node.href)) {
         const vidContainer: HTMLDivElement = node.closest(".ytd-rich-grid-renderer")!;
         
         vidContainer.style.display = "none";
       }
     });
+    const collections=document.querySelectorAll<HTMLDivElement>(".collections-stack-wiz")
+    collections.forEach((collects)=>{
+      const collectdiv:HTMLDivElement=collects.closest(".ytd-rich-grid-renderer")!
+      // collectdiv.style.display="none"
+    })
     sidebarChange()
     console.log("sidecall")
 }

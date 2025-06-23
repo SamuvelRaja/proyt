@@ -78,6 +78,15 @@ window.addEventListener('online', () => {
   // Perform actions when online
 });
 
+document.addEventListener("visibilitychange", function() {
+  if (document.hidden) {
+    console.log("Tab is inactive");
+  } else {
+    console.log("Tab is active");
+  onUrlChange(location.href);
+  }
+});
+
 //for sidebar
 // const observer = new MutationObserver((mutations) => {
 //   mutations.forEach((mutation) => {
